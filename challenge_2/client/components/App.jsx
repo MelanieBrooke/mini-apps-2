@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import DisplayCurrency from './DisplayCurrency.jsx';
-// import ReactDOM from 'react-dom';
+import styles from '../styles.modules.css';
+import Chart from 'chart.js/auto';
 
 class App extends React.Component {
   constructor(props) {
@@ -17,14 +18,11 @@ class App extends React.Component {
   }
 
   getData() {
-    // axios.get("https://api.coindesk.com/v1/bpi/currentprice.json")
     axios.get("https://api.coindesk.com/v1/bpi/historical/close.json")
     .then(data => {
-      // var byDate = Object.entries(data.data.bpi);
       this.setState({
         byDate:Object.entries(data.data.bpi)
       });
-      // console.log(this.state);
     })
     .catch(err => {
       console.error(err);
@@ -34,7 +32,12 @@ class App extends React.Component {
   render() {
     return(
       <div id="main">
-        <DisplayCurrency currency={this.state.byDate} />
+        <h1 className={styles.heading}>Cryptocurrency Charting Tool<br></br></h1>
+        <div>
+          <canvas id="bitcoinChart"></canvas>
+        </div>
+          <DisplayCurrency currency={this.state.byDate} />
+        <br></br>
         <div id="credit">Powered by <a href="https://www.coindesk.com/price/bitcoin">Coindesk</a></div>
       </div>
     )

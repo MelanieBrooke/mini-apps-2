@@ -1,0 +1,15 @@
+.table {
+  table-layout: fixed;
+  border-collapse: collapse;
+  border: 3px purple;
+  padding: 10px
+}
+
+.row {
+  padding: 10px;
+}
+
+.heading {
+  justify-content: center;
+  color:cadetblue;
+}
