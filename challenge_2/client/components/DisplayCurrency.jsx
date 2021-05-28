@@ -18,8 +18,12 @@ const DisplayCurrency = (props) => {
     data: {
       labels: dates,
       datasets: [{
-        label: 'Closing Price',
-        data: prices
+        label: 'Bitcoin Closing Price in USD',
+        data: prices,
+        backgroundColor: 'rbg(235, 52, 98)',
+        pointBackgroundColor: 'rbg(235, 52, 98)',
+        pointBorderColor: 'rbg(235, 52, 98)'
+        // tension: 0.1
       }]
     },
     options: {
