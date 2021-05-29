@@ -34,21 +34,24 @@ const App = () => {
       <SearchEvents setUrl={setUrl} query={query} setQuery={setQuery}/>
       <br></br>
       <DisplayEvents data={data}/>
+      <br></br>
       <ReactPaginate
+        pageCount={pageCount}
+        pageRangeDisplayed={7}
+        marginPagesDisplayed={1}
         previousLabel={'Previous Page'}
         nextLabel={'Next Page'}
         breakLabel={'...'}
-        breakClassName={'paginate break-me'}
-        pageCount={pageCount}
-        marginPagesDisplayed={1}
-        pageRangeDisplayed={3}
-        onPageChange={(event) => {
-          const selectedPage = event.selected;
+        breakClassName={'elipses'}
+        onPageChange={(e) => {
+          const selectedPage = e.selected;
           setOffset(selectedPage + 1)
         }}
-        containerClassName={'pagination'}
-        activeClassName={'active'}
-        pageClassName={'paginate'}
+        containerClassName={'paginationContainer'}
+        pageClassName={'page'}
+        activeClassName={'activePage'}
+        previousClassName={'previous'}
+        nextClassName={'next'}
       />
     </div>
   )

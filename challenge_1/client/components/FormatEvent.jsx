@@ -7,10 +7,10 @@ const FormatEvent = (props) => {
 
   return (
     <tr>
-      <td>
+      <td className="dateTable">
         <FormatDate date={props.event.date} />
       </td>
-      <td>
+      <td className="eventTable">
         {props.event.description}
       </td>
     </tr>

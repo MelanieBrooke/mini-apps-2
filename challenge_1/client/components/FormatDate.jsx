@@ -15,16 +15,23 @@ const months = {
   '12':'December'
 }
 
+const formatYear = (year) => {
+  if (Number(year) < 0) {
+    year = year.slice(1) + ' B.C.';
+  } else {
+    year = year + ' A.D.'
+  }
+  return year;
+}
+
 const FormatDate = (props) => {
   let formattedDate = props.date;
   if (formattedDate) {
     if (formattedDate.length > 5) {
       var datePieces = formattedDate.split('/');
-      formattedDate = datePieces[2] + ' ' + months[datePieces[1]] + ', ' + datePieces[0];
-    } else if (Number(formattedDate) < 0) {
-      formattedDate = formattedDate.slice(1) + ' B.C.';
+      formattedDate = datePieces[2] + ' ' + months[datePieces[1]] + ', ' + formatYear(datePieces[0]);
     } else {
-      formattedDate = formattedDate + ' A.D.'
+      formattedDate = formatYear(formattedDate);
     }
   }
   return (<div>{formattedDate}</div>)
