@@ -49,7 +49,7 @@ const Display = (props) => {
             <td>{props.score.frame10.bowl2}</td>
           </tr>
           <tr>
-            <td>Total</td>
+            <td>Turn Total</td>
             <td>{props.score.frame1.bowl1 + props.score.frame1.bowl2}</td>
             <td>{props.score.frame2.bowl1 + props.score.frame2.bowl2}</td>
             <td>{props.score.frame3.bowl1 + props.score.frame3.bowl2}</td>
@@ -60,6 +60,14 @@ const Display = (props) => {
             <td>{props.score.frame8.bowl1 + props.score.frame8.bowl2}</td>
             <td>{props.score.frame9.bowl1 + props.score.frame9.bowl2}</td>
             <td>{props.score.frame10.bowl1 + props.score.frame10.bowl2}</td>
+          </tr>
+        </tbody>
+      </table>
+      <table>
+        <tbody>
+          <tr>
+            <td>Overall Total</td>
+            <td>{props.total}</td>
           </tr>
         </tbody>
       </table>

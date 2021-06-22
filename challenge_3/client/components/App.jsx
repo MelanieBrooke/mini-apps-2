@@ -20,7 +20,8 @@ class App extends React.Component {
         frame8: {bowl1: 0, bowl2: 0},
         frame9: {bowl1: 0, bowl2: 0},
         frame10: {bowl1: 0, bowl2: 0}
-      }
+      },
+      total: 0,
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -42,31 +43,44 @@ class App extends React.Component {
     this.handleInput(Number(e.target.innerHTML));
   }
 
-  handleInput(score) {
-    console.log(score);
+  handleInput(input) {
+    this.state.total += input;
+    var keepScore = 'frame' + JSON.stringify(this.state.frame);
     if (this.state.bowl === 1) {
-      console.log('first bowl was', score);
-      if (score === 10) {
+      console.log('first bowl was', input);
+      if (input === 10) {
         console.log('strike!');
         this.state.bonus += 1;
         this.state.frame += 1;
+        this.state.score[keepScore].bowl1 = input;
       } else {
         this.state.bowl = 2;
+        this.state.score[keepScore].bowl1 = input;
+        // this.setState({
+        //   score[keepScore].bowl1: input,
+        // })
       }
     } else {
-      console.log('second bowl was', score);
+      console.log('second bowl was', input);
       this.state.bowl = 1;
       this.state.frame += 1;
-      console.log('frame', this.state.frame);
+      this.state.score[keepScore].bowl2 = input;
+      // this.setState({
+      //   score[keepScore].bowl2: input,
+      // });
     }
     // for when bowl scores are entered
     // determine if it's the first or second bowl of the frame
     // call calculate score
     // update the frame and bowl accordingly
     // if game over, call gameEnd
+    console.log(this.state.score[keepScore]);
+    this.setState({
+      frame: this.state.frame
+    });
   }
 
-  calculateScore() {
+  calculateScore(score, bowl) {
     //
   }
 
@@ -82,7 +96,7 @@ class App extends React.Component {
         <Keypad handleClick={this.handleClick}/>
         <br></br>
         <br></br>
-        <Display score={this.state.score}/>
+        <Display score={this.state.score} total={this.state.total}/>
       </div>
     )
   }
