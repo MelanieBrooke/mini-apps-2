@@ -1,20 +1,64 @@
 import React from 'react';
+import Keypad from './Keypad.jsx';
+import Display from './Display.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      frame: 0,
+      frame: 1,
       bowl: 1,
-      bonus: 0
+      bonus: 0,
+      score: {
+        frame1: {bowl1: 0, bowl2: 0},
+        frame2: {bowl1: 0, bowl2: 0},
+        frame3: {bowl1: 0, bowl2: 0},
+        frame4: {bowl1: 0, bowl2: 0},
+        frame5: {bowl1: 0, bowl2: 0},
+        frame6: {bowl1: 0, bowl2: 0},
+        frame7: {bowl1: 0, bowl2: 0},
+        frame8: {bowl1: 0, bowl2: 0},
+        frame9: {bowl1: 0, bowl2: 0},
+        frame10: {bowl1: 0, bowl2: 0}
+      }
     };
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
 
   }
 
-  handleInput() {
+  startGame() {
+    this.setState({
+      frame: 1,
+      bowl: 1,
+      bonus: 0
+    })
+  }
+
+  handleClick(e) {
+    e.preventDefault();
+    this.handleInput(Number(e.target.innerHTML));
+  }
+
+  handleInput(score) {
+    console.log(score);
+    if (this.state.bowl === 1) {
+      console.log('first bowl was', score);
+      if (score === 10) {
+        console.log('strike!');
+        this.state.bonus += 1;
+        this.state.frame += 1;
+      } else {
+        this.state.bowl = 2;
+      }
+    } else {
+      console.log('second bowl was', score);
+      this.state.bowl = 1;
+      this.state.frame += 1;
+      console.log('frame', this.state.frame);
+    }
     // for when bowl scores are entered
     // determine if it's the first or second bowl of the frame
     // call calculate score
@@ -35,7 +79,10 @@ class App extends React.Component {
   render() {
     return(
       <div>
-        Hello World
+        <Keypad handleClick={this.handleClick}/>
+        <br></br>
+        <br></br>
+        <Display score={this.state.score}/>
       </div>
     )
   }

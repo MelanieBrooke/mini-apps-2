@@ -1,0 +1,28 @@
+.table, td  {
+  border: 2px solid black;
+  text-align: center;
+  vertical-align: middle;
+  border-collapse: collapse;
+  background-image: linear-gradient(to right, red , yellow, #13FB07, #07F2FB);
+  /* padding: 20px */
+}
+/*
+table, td, th {
+  border: 2px solid darkslateblue;
+  text-align: center;
+  vertical-align: middle;
+  border-collapse: collapse;
+} */
+
+td {
+  padding: 20px;
+  background-image: none;
+}
+
+td:hover {
+  cursor: pointer;
+}
+
+/* .zero {
+  background-color: #FB3207;
+} */
