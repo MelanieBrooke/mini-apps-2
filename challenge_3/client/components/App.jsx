@@ -65,7 +65,11 @@ class App extends React.Component {
       console.log('the game ended, you\'re out of luck');
       return;
     }
-    console.log('frame: ', this.state.frame);
+    // don't take the click if the points are impossible
+    if (this.state.score[currFrame].bowl1 + input > 10) {
+      alert('Invalid entry, there\'s only ten pins per frame. Try again.');
+      return;
+    }
     // first frame
     if (this.state.frame === 1) {
       this.calculateScore(currFrame, input);
