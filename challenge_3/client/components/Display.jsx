@@ -52,7 +52,7 @@ const Display = (props) => {
           </tr>
           <tr>
             <td>Bonus</td>
-            <td></td>
+            <td>{props.score.frame1.bonus}</td>
             <td>{props.score.frame2.bonus}</td>
             <td>{props.score.frame3.bonus}</td>
             <td>{props.score.frame4.bonus}</td>
@@ -65,7 +65,7 @@ const Display = (props) => {
           </tr>
           <tr>
             <td>Turn Total</td>
-            <td>{props.score.frame1.bowl1 + props.score.frame1.bowl2}</td>
+            <td>{props.score.frame1.bowl1 + props.score.frame1.bowl2 + props.score.frame1.bonus}</td>
             <td>{props.score.frame2.bowl1 + props.score.frame2.bowl2 + props.score.frame2.bonus}</td>
             <td>{props.score.frame3.bowl1 + props.score.frame3.bowl2 + props.score.frame3.bonus}</td>
             <td>{props.score.frame4.bowl1 + props.score.frame4.bowl2 + props.score.frame4.bonus}</td>
@@ -75,7 +75,6 @@ const Display = (props) => {
             <td>{props.score.frame8.bowl1 + props.score.frame8.bowl2 + props.score.frame8.bonus}</td>
             <td>{props.score.frame9.bowl1 + props.score.frame9.bowl2 + props.score.frame9.bonus}</td>
             <td>{props.score.frame10.bowl1 + props.score.frame10.bowl2 + props.score.frame10.bonus}</td>
-            {/* <td>{props.score.frame11.bowl1 + props.score.frame11.bowl2}</td> */}
           </tr>
         </tbody>
       </table>

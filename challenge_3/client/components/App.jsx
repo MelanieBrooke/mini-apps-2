@@ -1,6 +1,8 @@
 import React from 'react';
 import Keypad from './Keypad.jsx';
 import Display from './Display.jsx';
+import Message from './Message.jsx';
+import Button from './Button.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -9,7 +11,6 @@ class App extends React.Component {
       gameOver: false,
       frame: 1,
       bowl: 1,
-      // bonus: 0,
       score: {
         frame1: {bowl1: 0, bowl2: 0, bonus: 0, strikeSpare: 0},
         frame2: {bowl1: 0, bowl2: 0, bonus: 0, strikeSpare: 0},
@@ -21,23 +22,35 @@ class App extends React.Component {
         frame8: {bowl1: 0, bowl2: 0, bonus: 0, strikeSpare: 0},
         frame9: {bowl1: 0, bowl2: 0, bonus: 0, strikeSpare: 0},
         frame10: {bowl1: 0, bowl2: 0, bonus: 0, strikeSpare: 0},
-        frame11: {bowl1: 0, bowl2: 0, bonus: 0}
+        frame11: {bowl1: 0, bowl2: 0, bonus: 0, strikeSpare: 0}
       },
       total: 0,
     };
     this.handleClick = this.handleClick.bind(this);
+    this.startGame = this.startGame.bind(this);
   }
 
-  componentDidMount() {
+  // componentDidMount() {
 
-  }
+  // }
 
   startGame() {
+    for (var i = 1; i <= 11; i++) {
+      var currFrame = 'frame' + JSON.stringify(i);
+      this.state.score[currFrame] = {
+        bowl1: 0,
+        bowl2: 0,
+        bonus: 0,
+        strikeSpare: 0
+      };
+    }
     this.setState({
       frame: 1,
       bowl: 1,
-      bonus: 0
-    })
+      total: 0,
+      score: this.state.score,
+      gameOver: false
+    });
   }
 
   handleClick(e) {
@@ -62,33 +75,63 @@ class App extends React.Component {
       if (this.state.score[lastFrame].strikeSpare) {
         this.state.score[lastFrame].strikeSpare -= 1;
         this.state.score[lastFrame].bonus += input;
+        this.state.total += input;
       }
       this.calculateScore(currFrame, input);
     } else if (this.state.frame > 2 && this.state.frame < 11) {
+      // third through tenth frame
       var lastFrame = 'frame' + JSON.stringify(this.state.frame - 1);
-      var oldFrame = 'frame' + JSON.stringify(this.state.frame - 1);
+      var oldFrame = 'frame' + JSON.stringify(this.state.frame - 2);
       if (this.state.score[oldFrame].strikeSpare) {
         this.state.score[oldFrame].strikeSpare -= 1;
         this.state.score[oldFrame].bonus += input;
+        this.state.total += input;
       }
       if (this.state.score[lastFrame].strikeSpare) {
         this.state.score[lastFrame].strikeSpare -= 1;
         this.state.score[lastFrame].bonus += input;
+        this.state.total += input;
       }
       this.calculateScore(currFrame, input);
+    } else if (this.state.frame === 11) {
+      // bonus frame
+      var lastFrame = 'frame' + JSON.stringify(this.state.frame - 1);
+      var oldFrame = 'frame' + JSON.stringify(this.state.frame - 2);
+      if (!this.state.score[oldFrame].strikeSpare && !this.state.score[lastFrame].strikeSpare) {
+        this.gameEnd();
+        return;
+      }
+      if (this.state.score[oldFrame].strikeSpare) {
+        this.state.score[oldFrame].strikeSpare -= 1;
+        this.state.score[oldFrame].bonus += input;
+        this.state.total += input;
+      }
+      if (this.state.score[lastFrame].strikeSpare) {
+        this.state.score[lastFrame].strikeSpare -= 1;
+        this.state.score[lastFrame].bonus += input;
+        this.state.total += input;
+      }
+      if (this.state.bowl === 1) {
+        this.state.score[currFrame].bowl1 = input;
+        this.state.bowl = 2;
+      } else {
+        this.state.score[currFrame].bowl2 = input
+        this.state.bowl = 1;
+      }
     }
-
-
-    // third through tenth frame
-    // bonus frame
 
     this.setState({
       score: this.state.score
     });
+
+    if (this.state.frame === 11 && !this.state.score.frame10.strikeSpare && !this.state.score.frame9.strikeSpare) {
+      this.gameEnd();
+      return;
+    }
   }
 
   calculateScore(currFrame, input) {
-    //
+    this.state.total += input;
     if (this.state.bowl === 1) {
       // strike
       if (input === 10) {
@@ -110,22 +153,6 @@ class App extends React.Component {
     }
   }
 
-  bonusFrame(input) {
-    if (this.state.bowl === 1) {
-      this.state.score.frame11.bowl1 = input;
-      this.state.bowl = 2;
-      this.state.bonus -= 1;
-      this.state.total += input;
-    } else {
-      this.state.score.frame11.bowl2 = input;
-      this.state.total += input;
-      this.gameEnd();
-    }
-    this.setState({
-      score: this.state.score
-    });
-  }
-
   gameEnd() {
     console.log('game over');
     this.state.gameOver = true;
@@ -138,8 +165,11 @@ class App extends React.Component {
   render() {
     return(
       <div>
+        <h1>Bowling Scorekeeper (Single Player Version)</h1>
+        <Message frame={this.state.frame} roll={this.state.bowl} gameOver={this.state.gameOver} total={this.state.total}/>
         <Keypad handleClick={this.handleClick}/>
         <br></br>
+        <Button onClick={this.startGame}/>
         <br></br>
         <Display score={this.state.score} total={this.state.total}/>
       </div>
