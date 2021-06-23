@@ -17,6 +17,13 @@ const Message = (props) => {
           <h4>Well... at least you hit the universe's favorite number, even if no one will be asking you to join their bowling league anytime soon.</h4>
         </div>
       )
+    } else if (props.total === 0) {
+      return (
+        <div>
+          <h3>Game Over!</h3>
+          <h4>So. There's these things called 'bumpers' they offer at msot bowling alleys...</h4>
+        </div>
+      )
     } else if (props.total < 10) {
       return (
         <div>
