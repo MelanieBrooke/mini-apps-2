@@ -20,7 +20,7 @@ const Display = (props) => {
             <th>Frame 08</th>
             <th>Frame 09</th>
             <th>Frame 10</th>
-            <th>Bonus</th>
+            {/* <th>Bonus</th> */}
           </tr>
           <tr>
             <td>First Bowl</td>
@@ -75,7 +75,7 @@ const Display = (props) => {
             <td>{props.score.frame8.bowl1 + props.score.frame8.bowl2 + props.score.frame8.bonus}</td>
             <td>{props.score.frame9.bowl1 + props.score.frame9.bowl2 + props.score.frame9.bonus}</td>
             <td>{props.score.frame10.bowl1 + props.score.frame10.bowl2 + props.score.frame10.bonus}</td>
-            <td>{props.score.frame11.bowl1 + props.score.frame11.bowl2}</td>
+            {/* <td>{props.score.frame11.bowl1 + props.score.frame11.bowl2}</td> */}
           </tr>
         </tbody>
       </table>

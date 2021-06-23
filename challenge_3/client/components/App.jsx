@@ -9,18 +9,18 @@ class App extends React.Component {
       gameOver: false,
       frame: 1,
       bowl: 1,
-      bonus: 0,
+      // bonus: 0,
       score: {
-        frame1: {bowl1: 0, bowl2: 0, bonus: 0},
-        frame2: {bowl1: 0, bowl2: 0, bonus: 0},
-        frame3: {bowl1: 0, bowl2: 0, bonus: 0},
-        frame4: {bowl1: 0, bowl2: 0, bonus: 0},
-        frame5: {bowl1: 0, bowl2: 0, bonus: 0},
-        frame6: {bowl1: 0, bowl2: 0, bonus: 0},
-        frame7: {bowl1: 0, bowl2: 0, bonus: 0},
-        frame8: {bowl1: 0, bowl2: 0, bonus: 0},
-        frame9: {bowl1: 0, bowl2: 0, bonus: 0},
-        frame10: {bowl1: 0, bowl2: 0, bonus: 0},
+        frame1: {bowl1: 0, bowl2: 0, bonus: 0, strikeSpare: 0},
+        frame2: {bowl1: 0, bowl2: 0, bonus: 0, strikeSpare: 0},
+        frame3: {bowl1: 0, bowl2: 0, bonus: 0, strikeSpare: 0},
+        frame4: {bowl1: 0, bowl2: 0, bonus: 0, strikeSpare: 0},
+        frame5: {bowl1: 0, bowl2: 0, bonus: 0, strikeSpare: 0},
+        frame6: {bowl1: 0, bowl2: 0, bonus: 0, strikeSpare: 0},
+        frame7: {bowl1: 0, bowl2: 0, bonus: 0, strikeSpare: 0},
+        frame8: {bowl1: 0, bowl2: 0, bonus: 0, strikeSpare: 0},
+        frame9: {bowl1: 0, bowl2: 0, bonus: 0, strikeSpare: 0},
+        frame10: {bowl1: 0, bowl2: 0, bonus: 0, strikeSpare: 0},
         frame11: {bowl1: 0, bowl2: 0, bonus: 0}
       },
       total: 0,
@@ -46,50 +46,68 @@ class App extends React.Component {
   }
 
   handleInput(input) {
+    var currFrame = 'frame' + JSON.stringify(this.state.frame);
+    // don't add more points if the game is over
     if (this.state.gameOver === true) {
-      console.log('the game already ended!');
+      console.log('the game ended, you\'re out of luck');
       return;
     }
-    console.log('frame: ', this.state.frame)
-    if (this.state.frame > 10 && !this.state.bonus) {
-      console.log('game end');
-      return;
-    }
-    if (this.state.frame === 11 && this.state.bonus) {
-      this.bonusFrame(input);
-      return;
-    }
-    this.state.total += input;
-    var keepScore = 'frame' + JSON.stringify(this.state.frame);
-    if (this.state.bowl === 1) {
-      console.log('first bowl was', input);
-      if (input === 10) {
-        console.log('strike!');
-        this.state.bonus += 2;
-        this.state.frame += 1;
-        this.state.score[keepScore].bowl1 = input;
-      } else {
-        this.state.bowl = 2;
-        this.state.score[keepScore].bowl1 = input;
+    console.log('frame: ', this.state.frame);
+    // first frame
+    if (this.state.frame === 1) {
+      this.calculateScore(currFrame, input);
+    } else if (this.state.frame === 2) {
+      // second frame
+      var lastFrame = 'frame' + JSON.stringify(this.state.frame - 1);
+      if (this.state.score[lastFrame].strikeSpare) {
+        this.state.score[lastFrame].strikeSpare -= 1;
+        this.state.score[lastFrame].bonus += input;
       }
-    } else {
-      console.log('second bowl was', input);
-      this.state.bowl = 1;
-      this.state.frame += 1;
-      this.state.score[keepScore].bowl2 = input;
-      if (this.state.score[keepScore].bowl1 + this.state.score[keepScore].bowl2 === 10) {
-        console.log('spare!');
-        this.state.bonus += 1;
+      this.calculateScore(currFrame, input);
+    } else if (this.state.frame > 2 && this.state.frame < 11) {
+      var lastFrame = 'frame' + JSON.stringify(this.state.frame - 1);
+      var oldFrame = 'frame' + JSON.stringify(this.state.frame - 1);
+      if (this.state.score[oldFrame].strikeSpare) {
+        this.state.score[oldFrame].strikeSpare -= 1;
+        this.state.score[oldFrame].bonus += input;
       }
+      if (this.state.score[lastFrame].strikeSpare) {
+        this.state.score[lastFrame].strikeSpare -= 1;
+        this.state.score[lastFrame].bonus += input;
+      }
+      this.calculateScore(currFrame, input);
     }
-    console.log(this.state.score[keepScore]);
+
+
+    // third through tenth frame
+    // bonus frame
+
     this.setState({
-      frame: this.state.frame
+      score: this.state.score
     });
   }
 
-  calculateScore(score, bowl) {
+  calculateScore(currFrame, input) {
     //
+    if (this.state.bowl === 1) {
+      // strike
+      if (input === 10) {
+        this.state.score[currFrame].bowl1 = input;
+        this.state.score[currFrame].strikeSpare = 2;
+        this.state.frame += 1;
+      } else {
+        this.state.score[currFrame].bowl1 = input;
+        this.state.bowl = 2;
+      }
+    } else {
+      this.state.score[currFrame].bowl2 = input
+      // spare
+      if (this.state.score[currFrame].bowl1 + input === 10) {
+        this.state.score[currFrame].strikeSpare = 1;
+      }
+      this.state.bowl = 1;
+      this.state.frame += 1;
+    }
   }
 
   bonusFrame(input) {
