@@ -3,13 +3,21 @@ const createBoard = (rows=10, cols=10, mines=10) => {
   for (var row = 0; row < rows; row++) {
     board.push([])
     for (var col = 0; col < cols; col++) {
-      board[row].push({
+      var spaceObj = {
         value: 0,
         mine: false,
         visible: false,
         id: [row, col],
         surrounding: []
-      })
+      };
+      board[row].push(spaceObj);
+      // board[row].push({
+      //   value: 0,
+      //   mine: false,
+      //   visible: false,
+      //   id: [row, col],
+      //   surrounding: []
+      // })
     }
   }
   plantMines(board, rows, cols, mines);
@@ -30,8 +38,10 @@ const plantMines = (board, rows, cols, mines) => {
   return board;
 }
 
-const clickSpace = (board, row, col) => {
-  // console.log('called', row, ',', col)
+// copied into Board component temporarily to try to make sure things are working
+const clickHandler = (board, row, col) => {
+  // console.log('called', row, ',', col);
+  console.log('space info:', board[row][col])
   if (board[row][col].visible) {
     return;
   } else if (board[row][col].mine) {
@@ -42,6 +52,7 @@ const clickSpace = (board, row, col) => {
     board[row][col].visible = true;
   } else if (!board[row][col].value && !board[row][col].mine) {
     console.log('number or blank');
+    reveal(board, row, col);
     // call reveal function here
     board[row][col].visible = true;
     return;
@@ -119,7 +130,7 @@ const gameOver = () => {
 export {
   createBoard,
   plantMines,
-  clickSpace,
+  clickHandler,
   reveal,
   gameOver
 }

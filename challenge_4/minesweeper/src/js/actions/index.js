@@ -10,6 +10,6 @@ export function createGame(payload) {
   return { type: CREATE_GRID, payload };
 }
 
-export function clickSpace(payload) {
-  return type: { CLICK_SPACE, payload };
-}
+// export function clickSpace(payload) {
+//   return { type: CLICK_SPACE, payload };
+// }
