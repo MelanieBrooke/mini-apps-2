@@ -6,7 +6,9 @@ const createBoard = (rows=10, cols=10, mines=10) => {
       board[row].push({
         value: 0,
         mine: false,
-        visible: false
+        visible: false,
+        id: [row, col],
+        surrounding: []
       })
     }
   }
@@ -53,4 +55,12 @@ const reveal = (board, row, col) => {
 
 const gameOver = () => {
   // declare the player a winner or loser, reveal all mines
+}
+
+export {
+  createBoard,
+  plantMines,
+  clickSpace,
+  reveal,
+  gameOver
 }
