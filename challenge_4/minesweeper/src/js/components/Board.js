@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { createBoard, plantMines, clickSpace, reveal, gameOver } from '../reducers/boardFunctions.js';
+// import { createBoard, plantMines, clickSpace, reveal, gameOver } from '../reducers/boardFunctions.js';
+import { createGame, clickSpace } from '../actions/index.js';
 
 
 // temp to test board until I figure out Redux
@@ -12,12 +13,11 @@ const Board = (props) => {
     return id;
   }
 
-  // hard coding board for now, can update to be flexible with time later after I learn redux
-  var createRows = () => {
+  var createRows = (rows=10, cols=10) => {
     var tableArrays = [];
-    for (var r = 0; r < 10; r++) {
+    for (var r = 0; r < rows; r++) {
       var rowArray = [];
-      for (var c = 0; c < 10; c++) {
+      for (var c = 0; c < cols; c++) {
         rowArray.push(createCell(r, c));
       }
       tableArrays.push(rowArray);
@@ -27,7 +27,11 @@ const Board = (props) => {
 
   var createCell = (r, c) => {
     var id = createID(r, c)
-    return(<td id={id}>[{id}]</td>)
+    var onClick = () => {
+      clickSpace(newBoard, r, c);
+    }
+    var value = newBoard[r][c].value;
+    return(<td id={id} onClick={onClick}>[{value}]</td>)
   }
 
   var tableStuff = createRows();

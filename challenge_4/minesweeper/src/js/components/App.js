@@ -9,7 +9,7 @@ const App = () => (
   <>
     <div>
       Hello World
-      <Board />
+      {/* <Board /> */}
     </div>
   </>
 );

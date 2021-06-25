@@ -1,7 +1,10 @@
 import { ADD_ARTICLE } from "../constants/action-types";
+import { createBoard, clickSpace } from "./boardFunctions.js";
+
+var gameBoard = createBoard();
 
 const initialState = {
-  articles: []
+  gameBoard: gameBoard
 };
 
 function rootReducer(state = initialState, action) {
