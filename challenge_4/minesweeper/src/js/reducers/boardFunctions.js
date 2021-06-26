@@ -7,6 +7,7 @@ const createBoard = (rows=10, cols=10, mines=10) => {
         value: 0,
         mine: false,
         visible: false,
+        marked: false,
         id: [row, col],
         surrounding: []
       };
@@ -26,7 +27,7 @@ const createBoard = (rows=10, cols=10, mines=10) => {
 
 const plantMines = (board, rows, cols, mines) => {
   var planted = 0;
-  while (planted < mines + 1) {
+  while (planted < mines) {
     var r = Math.floor(Math.random() * rows);
     var c = Math.floor(Math.random() * cols);
     if (!board[r][c].mine) {
@@ -39,6 +40,7 @@ const plantMines = (board, rows, cols, mines) => {
 }
 
 // copied into Board component temporarily to try to make sure things are working
+// remember to copy working code back here
 const clickHandler = (board, row, col) => {
   // console.log('called', row, ',', col);
   console.log('space info:', board[row][col])

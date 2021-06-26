@@ -1,0 +1,33 @@
+table {
+  width: 1000px;
+  /* height: 100%; */
+}
+
+td {
+  width: 10%;
+  /* height: 10%; */
+  padding-bottom: 10%;
+  padding: 10px;
+  background-color: gray;
+  /* size: 50px; */
+}
+
+.hidden, .marked {
+  background-color: gray;
+}
+
+/* .marked {
+  background-color: gray;
+} */
+
+.blank, .showNum {
+  background-color: lightgray;
+}
+/*
+.visible {
+  background-color: lightgray;
+} */
+
+.dead {
+  background-color: red;
+}
