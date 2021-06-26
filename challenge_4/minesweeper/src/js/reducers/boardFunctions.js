@@ -4,6 +4,8 @@ const createBoard = (rows=10, cols=10, mines=10) => {
     board.push([])
     for (var col = 0; col < cols; col++) {
       var spaceObj = {
+        end: false,
+        clicked: false,
         value: 0,
         mine: false,
         visible: false,
@@ -12,13 +14,6 @@ const createBoard = (rows=10, cols=10, mines=10) => {
         surrounding: []
       };
       board[row].push(spaceObj);
-      // board[row].push({
-      //   value: 0,
-      //   mine: false,
-      //   visible: false,
-      //   id: [row, col],
-      //   surrounding: []
-      // })
     }
   }
   plantMines(board, rows, cols, mines);
@@ -42,8 +37,6 @@ const plantMines = (board, rows, cols, mines) => {
 // copied into Board component temporarily to try to make sure things are working
 // remember to copy working code back here
 const clickHandler = (board, row, col) => {
-  // console.log('called', row, ',', col);
-  console.log('space info:', board[row][col])
   if (board[row][col].visible) {
     return;
   } else if (board[row][col].mine) {
@@ -53,7 +46,6 @@ const clickHandler = (board, row, col) => {
   } else if (board[row][col].value) {
     board[row][col].visible = true;
   } else if (!board[row][col].value && !board[row][col].mine) {
-    console.log('number or blank');
     reveal(board, row, col);
     // call reveal function here
     board[row][col].visible = true;

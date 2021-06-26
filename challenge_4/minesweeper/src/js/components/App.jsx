@@ -21,8 +21,8 @@ class App extends React.Component{
   }
 
   render() {
-    return(<div>
-      Hello World
+    return(<div id="main">
+      <div id="header"><h2>Minesweeper</h2></div>
       <Board />
     </div>)
   }
